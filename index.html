@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Cute Week ♥</title>
+    
+    <!-- PWA Configuration -->
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#ff6b9d">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    
+    <!-- Styles et Icônes -->
+    <link rel="stylesheet" href="style.css">
+    <link href='https://unpkg.com/boxicons@2.1.4/css/boxicons.min.css' rel='stylesheet'>
+    
+    <!-- Favicon -->
+    <link rel="icon" href="icon.png" type="image/png">
+    <link rel="apple-touch-icon" href="icon.png">
+</head>
+
+<body>
+    <!-- Décorations -->
+    <div class="cute-decoration" style="top: 20px; left: 20px;">♥</div>
+    <div class="cute-decoration" style="top: 50px; right: 40px;">✿</div>
+    <div class="cute-decoration" style="bottom: 30px; left: 10%;">✦</div>
+    <div class="cute-decoration" style="bottom: 60px; right: 15%;">🌸</div>
+    
+    <!-- Bouton Menu Mobile -->
+    <button class="menu-toggle" onclick="document.querySelector('.sidebar').classList.toggle('open')">
+        <i class='bx bx-menu'></i>
+    </button>
+
+    <div class="app-wrapper">
+        <!-- SIDEBAR MIGNON -->
+        <div class="sidebar">
+            <div class="sidebar-header">
+                <h2>My Cute Week</h2>
+                <button class="add-category-btn" onclick="openCategoryModal()">
+                    <i class='bx bx-plus'></i> New Category
+                </button>
+            </div>
+            
+            <!-- Navigation des Jours -->
+            <div class="sidebar-section">
+                <h3><i class='bx bx-sun'></i> Week Days</h3>
+                <ul class="days-list">
+                    <li class="day-item active" data-day="0">
+                        <i class='bx bx-calendar-heart'></i>
+                        <span>Sunday</span>
+                        <span class="day-count">0</span>
+                    </li>
+                    <li class="day-item" data-day="1">
+                        <i class='bx bx-calendar-heart'></i>
+                        <span>Monday</span>
+                        <span class="day-count">0</span>
+                    </li>
+                    <li class="day-item" data-day="2">
+                        <i class='bx bx-calendar-heart'></i>
+                        <span>Tuesday</span>
+                        <span class="day-count">0</span>
+                    </li>
+                    <li class="day-item" data-day="3">
+                        <i class='bx bx-calendar-heart'></i>
+                        <span>Wednesday</span>
+                        <span class="day-count">0</span>
+                    </li>
+                    <li class="day-item" data-day="4">
+                        <i class='bx bx-calendar-heart'></i>
+                        <span>Thursday</span>
+                        <span class="day-count">0</span>
+                    </li>
+                    <li class="day-item" data-day="5">
+                        <i class='bx bx-calendar-heart'></i>
+                        <span>Friday</span>
+                        <span class="day-count">0</span>
+                    </li>
+                    <li class="day-item" data-day="6">
+                        <i class='bx bx-calendar-heart'></i>
+                        <span>Saturday</span>
+                        <span class="day-count">0</span>
+                    </li>
+                </ul>
+            </div>
+            
+            <!-- Catégories -->
+            <div class="sidebar-section">
+                <h3><i class='bx bx-category'></i> Categories</h3>
+                <ul class="categories-list" id="categoriesList">
+                    <!-- Rempli dynamiquement -->
+                </ul>
+            </div>
+            
+            <!-- Statistiques -->
+            <div class="sidebar-section">
+                <h3><i class='bx bx-stats'></i> Stats</h3>
+                <div class="stats-grid">
+                    <div class="stat-item">
+                        <i class='bx bx-task'></i>
+                        <span class="stat-value" id="total-tasks">0</span>
+                        <span class="stat-label">Total</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class='bx bx-check-circle'></i>
+                        <span class="stat-value" id="completed-tasks">0</span>
+                        <span class="stat-label">Done</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class='bx bx-trending-up'></i>
+                        <span class="stat-value" id="productivity">0%</span>
+                        <span class="stat-label">Progress</span>
+                    </div>
+                    <div class="stat-item">
+                        <i class='bx bx-time'></i>
+                        <span class="stat-value" id="pending-tasks">0</span>
+                        <span class="stat-label">Pending</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- CONTENU PRINCIPAL -->
+        <div class="main-content">
+            <div class="container">
+                <!-- En-tête -->
+                <header class="app-header">
+                    <div class="header-left">
+                        <h1 id="current-day-title">
+                            <i class='bx bx-calendar-heart'></i>
+                            My <span id="current-day-name">Sunday</span> Tasks
+                        </h1>
+                        <p class="current-date" id="currentDate">
+                            <i class='bx bx-time-five'></i>
+                            December 5, 2024
+                        </p>
+                    </div>
+                    
+                    <div class="header-actions">
+                        <button class="btn btn-primary" onclick="openAdvancedTaskModal()">
+                            <i class='bx bx-plus-circle'></i>
+                            Plan Task
+                        </button>
+                        <button class="btn btn-secondary" onclick="exportData()">
+                            <i class='bx bx-export'></i>
+                            Export
+                        </button>
+                    </div>
+                </header>
+
+                <!-- Vue d'ensemble de la Semaine -->
+                <div class="week-overview-section">
+                    <div class="section-header">
+                        <h3><i class='bx bx-calendar-alt'></i> Week Overview</h3>
+                        <button class="btn-view-toggle" onclick="toggleWeekView()">
+                            <i class='bx bx-grid-alt'></i> Grid View
+                        </button>
+                    </div>
+                    
+                    <div class="week-days-grid" id="weekDaysGrid">
+                        <!-- Rempli dynamiquement -->
+                    </div>
+                </div>
+
+                <!-- Objectifs Hebdomadaires -->
+                <div class="goals-section">
+                    <div class="section-header">
+                        <h3><i class='bx bx-target-lock'></i> Weekly Goals</h3>
+                        <button class="btn-add-goal" onclick="addNewGoal()">
+                            <i class='bx bx-plus'></i> Add
+                        </button>
+                    </div>
+                    
+                    <div class="goals-list" id="goalsList">
+                        <!-- Rempli dynamiquement -->
+                    </div>
+                </div>
+
+                <!-- Ajout Rapide -->
+                <div class="quick-add-section">
+                    <div class="input-group">
+                        <input type="text" 
+                            class="todo-input" 
+                            id="todoInput"
+                            placeholder="Add a cute task... ♥">
+                        
+                        <select class="category-select" id="quickCategory">
+                            <option value="general">General</option>
+                            <option value="work">Work</option>
+                            <option value="personal">Personal</option>
+                            <option value="shopping">Shopping</option>
+                            <option value="health">Health</option>
+                        </select>
+                        
+                        <input type="time" class="time-input" id="quickTime">
+                        
+                        <button class="btn btn-success add-btn" onclick="addQuickTask()">
+                            <i class='bx bx-heart'></i>
+                            Add Task
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filtres et Tri -->
+                <div class="filter-section">
+                    <div class="filter-group">
+                        <button class="filter-btn active" data-filter="all" onclick="changeFilter('all')">
+                            All <span class="count" id="count-all">0</span>
+                        </button>
+                        <button class="filter-btn" data-filter="pending" onclick="changeFilter('pending')">
+                            Pending <span class="count" id="count-pending">0</span>
+                        </button>
+                        <button class="filter-btn" data-filter="completed" onclick="changeFilter('completed')">
+                            Done <span class="count" id="count-completed">0</span>
+                        </button>
+                        <button class="filter-btn" data-filter="today" onclick="changeFilter('today')">
+                            Today <span class="count" id="count-today">0</span>
+                        </button>
+                    </div>
+                    
+                    <div class="sort-group">
+                        <button class="sort-btn" onclick="toggleSort()">
+                            <i class='bx bx-sort-alt-2'></i>
+                            <span id="sort-text">Sort by newest</span>
+                        </button>
+                        <button class="view-toggle" onclick="toggleViewMode()">
+                            <i class='bx bx-grid' id="view-icon"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Liste des Tâches -->
+                <div class="tasks-container">
+                    <!-- Vue Grille -->
+                    <div class="tasks-grid" id="tasksGrid">
+                        <!-- Rempli dynamiquement -->
+                    </div>
+                    
+                    <!-- Vue Liste -->
+                    <div class="tasks-list" id="tasksList">
+                        <!-- Rempli dynamiquement -->
+                    </div>
+                    
+                    <!-- État Vide -->
+                    <div class="empty-state" id="emptyState">
+                        <i class='bx bx-check-circle'></i>
+                        <h3>No tasks for today</h3>
+                        <p>Start by adding a new task</p>
+                        <button class="btn btn-primary" onclick="openAdvancedTaskModal()">
+                            <i class='bx bx-plus'></i>
+                            Create my first task
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Footer Cute -->
+                <div class="cute-footer">
+                    <i class='bx bx-heart'></i>
+                    Made with love • Plan your day, the cute way
+                    <i class='bx bx-heart'></i>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Modal Tâche Avancée -->
+    <div class="modal-overlay" id="taskModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2><i class='bx bx-edit'></i> Plan a Cute Task</h2>
+                <button class="btn-close" onclick="closeTaskModal()">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            
+            <form id="taskForm">
+                <div class="form-group">
+                    <label for="taskTitle">
+                        <i class='bx bx-text'></i> Task Title
+                    </label>
+                    <input type="text" id="taskTitle" required placeholder="Enter task title...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="taskDescription">
+                        <i class='bx bx-note'></i> Description
+                    </label>
+                    <textarea id="taskDescription" rows="3" placeholder="Add a cute description..."></textarea>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskCategory">
+                            <i class='bx bx-category'></i> Category
+                        </label>
+                        <select id="taskCategory">
+                            <option value="work">Work</option>
+                            <option value="personal">Personal</option>
+                            <option value="shopping">Shopping</option>
+                            <option value="health">Health</option>
+                            <option value="study">Study</option>
+                            <option value="family">Family</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="taskPriority">
+                            <i class='bx bx-flag'></i> Priority
+                        </label>
+                        <select id="taskPriority">
+                            <option value="low">Low</option>
+                            <option value="medium" selected>Medium</option>
+                            <option value="high">High</option>
+                            <option value="urgent">Urgent</option>
+                        </select>
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskDate">
+                            <i class='bx bx-calendar'></i> Date
+                        </label>
+                        <input type="date" id="taskDate">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="taskTime">
+                            <i class='bx bx-time'></i> Time
+                        </label>
+                        <input type="time" id="taskTime">
+                    </div>
+                </div>
+                
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="taskRepeat">
+                            <i class='bx bx-repeat'></i> Repeat
+                        </label>
+                        <select id="taskRepeat">
+                            <option value="none">None</option>
+                            <option value="daily">Daily</option>
+                            <option value="weekly">Weekly</option>
+                            <option value="weekdays">Weekdays</option>
+                            <option value="monthly">Monthly</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="taskReminder">
+                            <i class='bx bx-bell'></i> Reminder
+                        </label>
+                        <input type="checkbox" id="taskReminder">
+                    </div>
+                </div>
+                
+                <div class="form-group">
+                    <label for="taskTags">
+                        <i class='bx bx-hash'></i> Tags
+                    </label>
+                    <input type="text" id="taskTags" placeholder="Work, Important, Cute...">
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeTaskModal()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class='bx bx-save'></i>
+                        Save Task
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Modal Catégorie -->
+    <div class="modal-overlay" id="categoryModal">
+        <div class="modal-content small">
+            <div class="modal-header">
+                <h2><i class='bx bx-category'></i> New Category</h2>
+                <button class="btn-close" onclick="closeCategoryModal()">
+                    <i class='bx bx-x'></i>
+                </button>
+            </div>
+            
+            <form id="categoryForm">
+                <div class="form-group">
+                    <label for="categoryName">Category Name</label>
+                    <input type="text" id="categoryName" required placeholder="Ex: Work, Sports...">
+                </div>
+                
+                <div class="form-group">
+                    <label for="categoryColor">Color</label>
+                    <input type="color" id="categoryColor" value="#ff6b9d">
+                </div>
+                
+                <div class="form-group">
+                    <label for="categoryIcon">Icon</label>
+                    <select id="categoryIcon">
+                        <option value="bx bx-briefcase">💼 Work</option>
+                        <option value="bx bx-home">🏠 Home</option>
+                        <option value="bx bx-shopping-bag">🛒 Shopping</option>
+                        <option value="bx bx-dumbbell">💪 Sports</option>
+                        <option value="bx bx-book">📚 Study</option>
+                        <option value="bx bx-heart">❤️ Health</option>
+                        <option value="bx bx-cake">🎂 Party</option>
+                        <option value="bx bx-music">🎵 Music</option>
+                    </select>
+                </div>
+                
+                <div class="modal-actions">
+                    <button type="button" class="btn btn-secondary" onclick="closeCategoryModal()">
+                        Cancel
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        Create Category
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Notifications -->
+    <div class="notification" id="notification"></div>
+
+    <!-- Scripts -->
+    <script src="script.js"></script>
+    <script>
+        // Enregistrer Service Worker
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('/sw.js')
+                    .then(reg => console.log('Service Worker registered:', reg))
+                    .catch(err => console.log('Service Worker error:', err));
+            });
+        }
+        
+        // Remplacer les noms français par anglais dans le script
+        document.addEventListener('DOMContentLoaded', () => {
+            // Mettre à jour les titres en anglais
+            document.querySelector('.sidebar-header h2').textContent = 'My Cute Week';
+            document.querySelector('.days-section h3').textContent = 'Week Days';
+            document.querySelector('.categories-section h3').textContent = 'Categories';
+            document.querySelector('.stats-section h3').textContent = 'Stats';
+            
+            // Mettre à jour le texte des boutons
+            document.querySelector('.add-category-btn').innerHTML = '<i class="bx bx-plus"></i> New Category';
+        });
+    </script>
+</body>
+</html>

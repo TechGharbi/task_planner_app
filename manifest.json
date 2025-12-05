@@ -1,0 +1,36 @@
+{
+  "name": "My Cute Week",
+  "short_name": "CuteWeek",
+  "description": "Adorable weekly planner app with cute pink design",
+  "start_url": "/index.html",
+  "display": "standalone",
+  "background_color": "#ffe6f2",
+  "theme_color": "#ff6b9d",
+  "orientation": "portrait-primary",
+  "lang": "en",
+  "icons": [
+    {
+      "src": "icon.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ],
+  "categories": ["productivity", "lifestyle", "utilities"],
+  "shortcuts": [
+    {
+      "name": "New Cute Task",
+      "short_name": "Add",
+      "description": "Add a new cute task",
+      "url": "/index.html?action=add",
+      "icons": [{ "src": "icon.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Today's Tasks",
+      "short_name": "Today",
+      "description": "View today's cute tasks",
+      "url": "/index.html?filter=today",
+      "icons": [{ "src": "icon.png", "sizes": "192x192" }]
+    }
+  ]
+}
